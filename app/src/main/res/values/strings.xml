@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">MemoryGameDemo</string>
+    <string name="descr_image">Image</string>
+    <string name="action_settings">Settings</string>
+    <string name="player_name">Player Name</string>
+    <string name="btn_next">Next</string>
+
+
+</resources>
