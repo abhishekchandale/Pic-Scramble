@@ -12,8 +12,7 @@ public class ImageFlickerApi {
     public static final String TAG = ImageFlickerApi.class.getSimpleName();
 
     private static ImageFlickerApi mImageFlickerApi = null;
-    private DbAccess mDbAccess;
-    private ProgressDialog mDialog;
+
 
     public static ImageFlickerApi getInstance() {
         if (mImageFlickerApi == null) {
