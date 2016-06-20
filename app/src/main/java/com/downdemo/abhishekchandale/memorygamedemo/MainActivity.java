@@ -11,6 +11,7 @@ import android.widget.FrameLayout;
 
 import com.downdemo.abhishekchandale.memorygamedemo.fragment.PuzzleGridFragment;
 import com.downdemo.abhishekchandale.memorygamedemo.fragment.UserInfoFragment;
+import com.downdemo.abhishekchandale.memorygamedemo.util.CommonUtil;
 import com.downdemo.abhishekchandale.memorygamedemo.util.Preferences;
 
 public class MainActivity extends AppCompatActivity {

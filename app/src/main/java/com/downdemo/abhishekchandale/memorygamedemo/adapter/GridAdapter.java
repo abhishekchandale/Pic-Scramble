@@ -35,6 +35,7 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListe
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import cc.cloudist.acplibrary.ACProgressConstant;
 import cc.cloudist.acplibrary.ACProgressFlower;
@@ -42,13 +43,12 @@ import cc.cloudist.acplibrary.ACProgressFlower;
 public class GridAdapter extends RecyclerView.Adapter<GridAdapter.DataObjectHolder> implements PuzzleGridFragment.ICallBAck {
 
     private static String TAG = "ImageGridAdapter";
-    private ArrayList<CustomImageModel> mCustomImageModel;
-    //private Context mContext;
+    private ArrayList<CustomImageModel> mCustomImageModel = new ArrayList<>();
     private PuzzleGridFragment mContext;
     private GridAdapter mImageGridAdapter;
     private DisplayImageOptions mOptions;
     private CountDownTimer mCountDownTimer, mTimer;
-    private static ArrayList<CustomImageModel> mCampateImageList;
+    private ArrayList<CustomImageModel> mCampateImageList;
     private ProgressDialog mDialog;
     ImageView mImageView;
     int count = 0;
@@ -60,15 +60,17 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.DataObjectHold
 
     public GridAdapter(ArrayList<CustomImageModel> customModel, PuzzleGridFragment context, ImageView imageview, TextView textView) {
         mCampateImageList = customModel;
-        mCustomImageModel = customModel;
-        for (int i = 0; i < customModel.size(); i++) {
-            customModel.get(i);
-        }
-
+        mCustomImageModel.addAll(customModel);
+        Collections.shuffle(mCustomImageModel);
         mContext = context;
         this.mImageView = imageview;
         this.mCounterText = textView;
         mDialog = new ProgressDialog(mContext.getActivity(), R.style.CustomDialog);
+        dialog = new ACProgressFlower.Builder(mContext.getActivity())
+                .direction(ACProgressConstant.DIRECT_CLOCKWISE)
+                .themeColor(Color.WHITE)
+                .fadeColor(Color.DKGRAY).build();
+        dialog.setCanceledOnTouchOutside(false);
         mOptions = new DisplayImageOptions.Builder()
                 .showImageOnLoading(R.drawable.ic_stub)
                 .showImageForEmptyUri(R.drawable.ic_empty)
@@ -105,7 +107,8 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.DataObjectHold
             public void onFinish() {
                 mCounterText.setVisibility(View.INVISIBLE);
                 CommonUtil.flip(holder.mImageUrl, holder.mImageFlip, 90);
-                dialog.dismiss();
+                if (dialog != null)
+                    dialog.dismiss();
             }
         }.start();
 
@@ -135,13 +138,10 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.DataObjectHold
                                 mLoaderCount = mLoaderCount + 1;
                                 if (mLoaderCount == 8) {
                                     mDialog.dismiss();
-                                    dialog = new ACProgressFlower.Builder(mContext.getActivity())
-                                            .direction(ACProgressConstant.DIRECT_CLOCKWISE)
-                                            .themeColor(Color.WHITE)
-                                            .fadeColor(Color.DKGRAY).build();
-                                    dialog.setCanceledOnTouchOutside(false);
-                                    dialog.show();
-                                    mTimer.start();
+                                    if (dialog != null)
+                                        dialog.show();
+                                    if (mTimer != null)
+                                        mTimer.start();
                                 }
 
                             }
