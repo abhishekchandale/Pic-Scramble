@@ -66,11 +66,7 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.DataObjectHold
         this.mImageView = imageview;
         this.mCounterText = textView;
         mDialog = new ProgressDialog(mContext.getActivity(), R.style.CustomDialog);
-        dialog = new ACProgressFlower.Builder(mContext.getActivity())
-                .direction(ACProgressConstant.DIRECT_CLOCKWISE)
-                .themeColor(Color.WHITE)
-                .fadeColor(Color.DKGRAY).build();
-        dialog.setCanceledOnTouchOutside(false);
+
         mOptions = new DisplayImageOptions.Builder()
                 .showImageOnLoading(R.drawable.ic_stub)
                 .showImageForEmptyUri(R.drawable.ic_empty)
@@ -105,10 +101,10 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.DataObjectHold
 
             @Override
             public void onFinish() {
+                mTimer.cancel();
                 mCounterText.setVisibility(View.INVISIBLE);
                 CommonUtil.flip(holder.mImageUrl, holder.mImageFlip, 90);
-                if (dialog != null)
-                    dialog.dismiss();
+                dialog.dismiss();
             }
         }.start();
 
@@ -132,16 +128,19 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.DataObjectHold
 
                             @Override
                             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                                Log.d(TAG, "Bitmap-" + loadedImage.toString());
                                 mTimer.cancel();
+                                Log.d(TAG, "Bitmap-" + loadedImage.toString());
                                 holder.mProgressBar.setVisibility(View.GONE);
                                 mLoaderCount = mLoaderCount + 1;
                                 if (mLoaderCount == 8) {
                                     mDialog.dismiss();
-                                    if (dialog != null)
-                                        dialog.show();
-                                    if (mTimer != null)
-                                        mTimer.start();
+                                    dialog = new ACProgressFlower.Builder(mContext.getActivity())
+                                            .direction(ACProgressConstant.DIRECT_CLOCKWISE)
+                                            .themeColor(Color.WHITE)
+                                            .fadeColor(Color.DKGRAY).build();
+                                    dialog.setCanceledOnTouchOutside(false);
+                                    dialog.show();
+                                    mTimer.start();
                                 }
 
                             }
@@ -242,9 +241,9 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.DataObjectHold
                             e.printStackTrace();
                         }
                         Log.d(TAG, "Count-" + count);
-                        if (position >= 0 && position <= 7) {
+                        if (count >= 0 && count <= 8) {
                             ImageLoader.getInstance()
-                                    .displayImage(mCampateImageList.get(position + 1).getImageurl(), mImageView, mOptions, new SimpleImageLoadingListener() {
+                                    .displayImage(mCampateImageList.get(count).getImageurl(), mImageView, mOptions, new SimpleImageLoadingListener() {
                                         @Override
                                         public void onLoadingStarted(String imageUri, View view) {
                                             // holder.mProgressBar.setProgress(0);

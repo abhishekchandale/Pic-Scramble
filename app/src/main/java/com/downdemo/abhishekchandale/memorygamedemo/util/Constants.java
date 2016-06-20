@@ -10,7 +10,7 @@ public class Constants {
     public static final String LANG = "en-us";
     public static final String FORMAT = "json";
     public static final int JSONCALBACK = 1;
-    public static final long COUNTERTIME = 15000;
+    public static final long COUNTERTIME = 30000;
     public static final long COUNTERINTERVAL = 1000;
 
 
