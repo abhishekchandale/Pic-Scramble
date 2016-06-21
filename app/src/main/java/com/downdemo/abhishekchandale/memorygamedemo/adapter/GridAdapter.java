@@ -299,8 +299,10 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.DataObjectHold
             builder.setPositiveButton("Quit", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+                    ImageLoader.getInstance().clearMemoryCache();
+                    ImageLoader.getInstance().clearDiskCache();
                     dialog.dismiss();
-                    mContext.getActivity().onBackPressed();
+                   // mContext.getActivity().onBackPressed();
 
                 }
             });
