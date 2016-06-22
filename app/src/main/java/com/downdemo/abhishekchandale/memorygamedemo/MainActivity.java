@@ -11,7 +11,6 @@ import android.widget.FrameLayout;
 
 import com.downdemo.abhishekchandale.memorygamedemo.fragment.PuzzleGridFragment;
 import com.downdemo.abhishekchandale.memorygamedemo.fragment.UserInfoFragment;
-import com.downdemo.abhishekchandale.memorygamedemo.util.CommonUtil;
 import com.downdemo.abhishekchandale.memorygamedemo.util.Preferences;
 
 public class MainActivity extends AppCompatActivity {
@@ -41,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void callFragment() {
         mFragmentTransaction = getSupportFragmentManager().beginTransaction();
-        if (Preferences.getUserLoggedIn(getApplicationContext())==true) {
+        if (Preferences.getUserLoggedIn(getApplicationContext()) == true) {
             PuzzleGridFragment puzzleGridFragment = new PuzzleGridFragment();
             if (puzzleGridFragment != null) {
                 mFragmentTransaction.replace(R.id.frame_main, puzzleGridFragment, PuzzleGridFragment.class.getSimpleName());
